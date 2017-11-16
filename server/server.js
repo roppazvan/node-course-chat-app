@@ -13,16 +13,21 @@ const dt = dateTime.create();
 const formattedDateTime = dt.format('Y-m-d H:M:S');
 
 io.on('connection', (socket) => {
-    console.log('user was connected');
-    socket.on('disconnect', () => {
-        console.log('disconnected from server');
-    });
+    socket.emit('newMessage', {from: 'Admin', text: 'Welcome to the chat app'});
+    socket.broadcast.emit('newMessage', {from: 'Admin', text: 'new member joined chat'});
+
     socket.on('createMessage', (message) => {
         io.emit('newMessage', {
             from: message.from,
             text: message.text,
             createAt: formattedDateTime,
-        })
+        });
+        // to be able to send message but only for other users
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     text: message.text,
+        //     createdAt: formattedDateTime,
+        // });
     });
 });
 
