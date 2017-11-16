@@ -7,16 +7,42 @@ socket.on('connect', function() {
 
 // display new messages from server
 socket.on('newMessage', function(message) {
+    var formattedTime = moment(message.createdAt).format('h:mm a');
     var li = jQuery('<li></li>');
-    li.text(`${message.from}: ${message.text}`);
+    var titleDiv = jQuery('<div></div>');
+    var h4 = jQuery('<h4></h4>');
+    var span = jQuery('<span></span>');
+    var p = jQuery('<p></p>');
+    span.text(formattedTime);
+    h4.text(message.from);
+    titleDiv.addClass('message__title');
+    titleDiv.append(h4);
+    titleDiv.append(span);
+    li.addClass('message');
+    li.append(titleDiv);
+    var messageDiv = jQuery('<div></div>');
+    messageDiv.addClass('message__body');
+    p.text(message.text);
+    messageDiv.append(p);
+    li.append(messageDiv);
     jQuery('#messages').append(li);
 });
 
 // display location messages
 socket.on('newLocationMessage', function(message) {
+    var formattedTime = moment(message.createdAt).format('h:mm a');
     var li = jQuery('<li></li>');
+    var titleDiv = jQuery('<div></div>');
+    var h4 = jQuery('<h4></h4>');
+    var span = jQuery('<span></span>');
     var a = jQuery('<a target="_blank">My current location</a>');
-    li.text(`${message.from}: `);
+    span.text(formattedTime);
+    h4.text(message.from);
+    titleDiv.addClass('message__title');
+    titleDiv.append(h4);
+    titleDiv.append(span);
+    li.addClass('message');
+    li.append(titleDiv);
     a.attr('href', message.url);
     li.append(a);
     jQuery('#messages').append(li);
