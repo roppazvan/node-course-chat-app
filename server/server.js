@@ -14,9 +14,9 @@ io.on('connection', (socket) => {
     socket.emit('newMessage', generateMessage('Admin', 'Bine ai venit boss'));
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'A mai intrat unu pe chat'));
 
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         io.emit('newMessage', generateMessage(message.from, message.text));
-
+        callback('testcallback');
         // to be able to send message but only for other users
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
