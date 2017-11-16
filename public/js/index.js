@@ -26,6 +26,9 @@ socket.on('newMessage', function(message) {
     messageDiv.append(p);
     li.append(messageDiv);
     jQuery('#messages').append(li);
+    jQuery('#messages').animate({
+        scrollTop: $(document).height()
+    }, 'slow');
 });
 
 // display location messages
