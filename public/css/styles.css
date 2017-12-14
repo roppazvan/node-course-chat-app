@@ -84,7 +84,7 @@ button:disabled {
 }
 
 .chat__sidebar {
-  /*overflow-y: scroll;*/
+  overflow: auto;
   width: 260px;
   height: 100vh;
   background: -moz-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* ff3.6+ */
@@ -106,6 +106,7 @@ button:disabled {
 }
 
 .chat__sidebar li {
+  word-break: break-all;
   background: #e6eaee;
   border: 1px solid #e1e1e1;
   border-radius: 5px;
