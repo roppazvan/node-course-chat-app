@@ -49,6 +49,8 @@ socket.on('newMessage', function(message) {
     if(message.from !== params.name) {
         jQuery(document).prop('title', 'new message..');
         var audio = jQuery('#nelson')[0];
+        audio.pause();
+        audio.currentTime = 0;
         audio.play();
     }
 });
@@ -84,7 +86,7 @@ socket.on('newImage', function(image) {
 socket.on('updateUserList', function(users) {
     var ol = jQuery('<ol></ol>');
     users.forEach(function(user) {
-        ol.append(jQuery('<li></li>').text(user));
+        ol.append(jQuery('<li></li>').html('<img class="profile-pic" src="/favicon/nelson.png" />' + user));
     });
     jQuery('#users').html(ol);
 });

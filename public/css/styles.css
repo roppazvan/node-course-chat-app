@@ -106,12 +106,18 @@ button:disabled {
 }
 
 .chat__sidebar li {
+  display: flex;
+  align-items: center;
   word-break: break-all;
   background: #e6eaee;
   border: 1px solid #e1e1e1;
   border-radius: 5px;
   padding: 10px;
   margin: 10px;
+}
+
+.profile-pic {
+  height: 50px;
 }
 
 .chat__main {
