@@ -1,8 +1,16 @@
 
 var socket = io();
+var notificationSound = false;
+
 window.addEventListener('focus', function() {
     jQuery(document).prop('title', 'Chat app');
+    notificationSound = false;
 });
+
+window.addEventListener('blur', function() {
+    notificationSound = true;
+});
+
 // when new message is added scroll
 function scrollToBottom() {
     // selectors
@@ -46,7 +54,7 @@ socket.on('newMessage', function(message) {
     jQuery('#messages').append(html);
     scrollToBottom();
     var params = jQuery.deparam(window.location.search);
-    if(message.from !== params.name) {
+    if(message.from !== params.name && notificationSound) {
         jQuery(document).prop('title', 'new message..');
         var audio = jQuery('#nelson')[0];
         audio.pause();

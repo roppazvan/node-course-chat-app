@@ -21,6 +21,9 @@ io.on('connection', (socket) => {
         if(!isRealString(name) || !isRealString(room)) {
             callback('Name and room name are required');
             return;
+        } else if (name.length > 20) {
+            callback('Name too long');
+            return;
         }
         socket.join(room);
 
