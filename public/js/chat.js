@@ -1,6 +1,7 @@
 
 var socket = io();
 
+// when new message is added scroll
 function scrollToBottom() {
     // selectors
     var messages = jQuery('#messages');
@@ -46,16 +47,31 @@ socket.on('newMessage', function(message) {
 
 // location messages
 socket.on('newLocationMessage', function(message) {
+    console.log(message);
     var template = jQuery('#location-message-template').html();
     var formattedTime = moment(message.createdAt).format('h:mm a');
     var html = Mustache.render(template, {
-        location: message.url,
+        url: message.url,
         from: message.from,
         createdAt: formattedTime,
     });
     jQuery('#messages').append(html);
     scrollToBottom();
 });
+
+socket.on('newImage', function(image) {
+    var template = jQuery('#image-message-template').html();
+    var formattedTime = moment(image.createdAt).format('h:mm a');
+    var html = Mustache.render(template, {
+        from: image.from,
+        createdAt: formattedTime,
+        image: image.image,
+    });
+    jQuery('#messages').append(html);
+    scrollToBottom();
+});
+
+
 // new user joined - update user list
 socket.on('updateUserList', function(users) {
     var ol = jQuery('<ol></ol>');
@@ -94,4 +110,19 @@ locationButton.on('click', function() {
         locationButton.removeAttr('disabled', 'disabled').text('Send Location');
         alert('Unable to fetch location!');
     });
+});
+
+//send photo
+jQuery('#upload-image-btn').on('click', function() {
+    jQuery('#fileInput').click();
+});
+
+jQuery('#fileInput').on('change', function(e) {
+    var file = e.target.files[0];
+    console.log('file', file);
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+        socket.emit('newImage', ev.target.result);
+    }
+    reader.readAsDataURL(file);
 });

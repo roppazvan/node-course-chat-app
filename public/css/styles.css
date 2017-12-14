@@ -195,3 +195,6 @@ button:disabled {
     margin-right: 0px;
   }
 }
+#user-image {
+  max-width: 600px;
+}

@@ -7,7 +7,7 @@
     </head>
     <body class="chat">
         <div class="chat__sidebar">
-            <h3>People</h3>
+            <h3>Useri online</h3>
             <div id="users"></div>
         </div>
         <div class="chat__main">
@@ -15,9 +15,13 @@
             <div class="chat__footer">
                 <form id="message-form">
                     <input name="message" placeholder="Message" autofocus autocomplete="off"/>
-                    <button>Send</button>
+                    <button>Trimite</button>
                 </form>
-                <button id="send-location">Send location</button>
+                <button id="send-location">Unde esti?</button>
+                <div style="height:10px;width: 10px;overflow:hidden">
+                    <input type="file" id="fileInput" name="fileInput" accept="image/x-png,image/gif,image/jpeg"/>
+                </div>
+                <button id="upload-image-btn" type="button">Trimite poze cu manelisti</button>
             </div>
         </div>
 
@@ -43,8 +47,20 @@
                 </div>
                 <div class="message__body">
                     <p>
-                        <a href="{{url}}" taget="_blank" >My current location</a>
+                        <a href="{{url}}" target="_blank" >My current location</a>
                     </p>
+                </div>
+            </li>
+        </script>
+        <!--moustache image message template-->
+        <script id="image-message-template" type="text/template">
+            <li class="message">
+                <div class="message__title">
+                    <h4>{{from}}</h4>
+                    <span>{{createdAt}}</span>
+                </div>
+                <div class="message__body">
+                    <img id="user-image" src="{{image}}" />
                 </div>
             </li>
         </script>

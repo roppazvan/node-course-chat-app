@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const socketIO = require('socket.io');
-const { generateMessage, generateLocationMessage } = require('./utils/message');
+const { generateMessage, generateLocationMessage, generateImageMessage } = require('./utils/message');
 const { isRealString } = require('./utils/validation');
 
 const http = require('http');
@@ -41,6 +41,11 @@ io.on('connection', (socket) => {
             io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
             callback('testcallback');
         }
+    });
+
+    socket.on('newImage', (image) => {
+        const user = users.getUser(socket.id);
+        io.to(user.room).emit('newImage', generateImageMessage(user.name, image));
     });
 
     socket.on('createLocationMessage', (coords) => {
