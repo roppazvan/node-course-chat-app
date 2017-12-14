@@ -5,50 +5,28 @@ socket.on('connect', function() {
     console.log('connectedToServer');
 });
 
-// display new messages from server
+// display new messages from server with mustache js
 socket.on('newMessage', function(message) {
+    var template = jQuery('#message-template').html();
     var formattedTime = moment(message.createdAt).format('h:mm a');
-    var li = jQuery('<li></li>');
-    var titleDiv = jQuery('<div></div>');
-    var h4 = jQuery('<h4></h4>');
-    var span = jQuery('<span></span>');
-    var p = jQuery('<p></p>');
-    span.text(formattedTime);
-    h4.text(message.from);
-    titleDiv.addClass('message__title');
-    titleDiv.append(h4);
-    titleDiv.append(span);
-    li.addClass('message');
-    li.append(titleDiv);
-    var messageDiv = jQuery('<div></div>');
-    messageDiv.addClass('message__body');
-    p.text(message.text);
-    messageDiv.append(p);
-    li.append(messageDiv);
-    jQuery('#messages').append(li);
-    jQuery('#messages').animate({
-        scrollTop: $(document).height()
-    }, 'slow');
+    var html = Mustache.render(template, {
+        text: message.text,
+        from: message.from,
+        createdAt: formattedTime,
+    });
+    jQuery('#messages').append(html);
 });
 
 // display location messages
 socket.on('newLocationMessage', function(message) {
+    var template = jQuery('#location-message-template').html();
     var formattedTime = moment(message.createdAt).format('h:mm a');
-    var li = jQuery('<li></li>');
-    var titleDiv = jQuery('<div></div>');
-    var h4 = jQuery('<h4></h4>');
-    var span = jQuery('<span></span>');
-    var a = jQuery('<a target="_blank">My current location</a>');
-    span.text(formattedTime);
-    h4.text(message.from);
-    titleDiv.addClass('message__title');
-    titleDiv.append(h4);
-    titleDiv.append(span);
-    li.addClass('message');
-    li.append(titleDiv);
-    a.attr('href', message.url);
-    li.append(a);
-    jQuery('#messages').append(li);
+    var html = Mustache.render(template, {
+        location: message.url,
+        from: message.from,
+        createdAt: formattedTime,
+    });
+    jQuery('#messages').append(html);
 });
 
 // emit messages on form submit
